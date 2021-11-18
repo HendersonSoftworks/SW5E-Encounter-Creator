@@ -1,0 +1,72 @@
+<!-- #region 
+    To do:
+    build encounters
+    view saved encounters
+    export encounters to text
+    import encounters from text
+-->
+
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Tom H">
+        <meta name="description" content="SW5e Game Manager">
+        <meta name="keywords" content="SW5e, Star Wars, RPG">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="js/encounter.js"></script>
+	</head>
+
+	<body>
+        <h1>
+            <img class="mainMenuButton" src="images/mainMenu.png" onclick="window.location.href='index.html'">
+            Encounter Builder
+        </h1>
+        <div class="tools">
+            <button id="create">Create</button>
+            <br><br>
+            <button id="saved">Saved</button>
+            <br><br>
+            <button id="import">Import</button>
+            <br><br>
+            <button id="export">Export</button>
+            <br><br>
+        </div>
+        <div class="encounterCreatorTool">
+          <p style="display: none;">
+            <img src="images/b1.webp" id="loadscreen">
+            Databank retrieval in progress...
+            <img src="images/b1.webp" id="loadscreen" style="transform: scaleX(-1);">
+          </p>
+            <table id="encounterTable" style="display: none;">
+                <tr>
+                  <th>Name</th>
+                  <th>AC</th>
+                  <th>HP</th>
+                  <th>Actions</th>
+                  <th>CR</th>
+                </tr>
+                <tr id="defaultRow">
+                  <td id="monsterName0"> 
+                    <button id="addMonster0">Monster</button> 
+                  </td>
+                  <td id="monsterAC0">0</td>
+                  <td id="monsterHP0">0</td>
+                  <td id="monsterAttacks0">DefaultValue(Should not appear)</td>
+                  <td id="monsterCR0">0</td>
+                </tr>
+              </table>
+          <div id="currentEncounterDiv">
+            <table id="currrentEncounter" style="display: none;">
+              <tr>
+                <th>Name</th>
+                <th>AC</th>
+                <th>HP</th>
+                <th>Actions</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+	</body>
+</html>
