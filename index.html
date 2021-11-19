@@ -14,7 +14,6 @@
         <meta name="keywords" content="SW5e, Star Wars, RPG">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="js/encounter.js"></script>
 	</head>
 
@@ -23,6 +22,8 @@
             <img class="mainMenuButton" src="images/mainMenu.png" onclick="window.location.href='index.html'">
             Encounter Builder
         </h1>
+        <div id="filter">
+        </div>
         <div class="tools">
             <button id="create">Create</button>
             <br><br>
@@ -40,21 +41,26 @@
             <img src="images/b1.webp" id="loadscreen" style="transform: scaleX(-1);">
           </p>
             <table id="encounterTable" style="display: none;">
-                <tr>
-                  <th>Name</th>
-                  <th>AC</th>
-                  <th>HP</th>
-                  <th>Actions</th>
-                  <th>CR</th>
-                </tr>
-                <tr id="defaultRow">
-                  <td id="monsterName0"> 
-                    <button id="addMonster0">Monster</button> 
-                  </td>
-                  <td id="monsterAC0">0</td>
-                  <td id="monsterHP0">0</td>
-                  <td id="monsterAttacks0">DefaultValue(Should not appear)</td>
-                  <td id="monsterCR0">0</td>
+                  <th>
+                    <button onclick="sortTable(0)" class="delMonsterButton">Name</button>
+                    <input type="text" id="searchInputName" onkeyup="SearchTable(this.id, 0)">    
+                  </th>
+                  <th >
+                    <button onclick="sortTable(1)" class="delMonsterButton">AC</button>
+                    <input type="text" id="searchInputAC" onkeyup="SearchTable(this.id, 1)">    
+                  </th>
+                  <th>
+                    <button onclick="sortTable(2)" class="delMonsterButton">HP</button>
+                    <input type="text" id="searchInputHP" onkeyup="SearchTable(this.id, 2)">    
+                  </th>
+                  <th>
+                    <button class="delMonsterButton">Actions</button>
+                    <input type="text" id="searchInputActions" onkeyup="SearchTable(this.id, 3)">    
+                  </th>
+                  <th>
+                    <button onclick="sortTable(4)" class="delMonsterButton">CR</button> 
+                    <input type="text" id="searchInputCR" onkeyup="SearchTable(this.id, 4)">    
+                  </th>
                 </tr>
               </table>
           <div id="currentEncounterDiv">

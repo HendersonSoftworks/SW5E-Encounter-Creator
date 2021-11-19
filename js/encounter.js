@@ -26,6 +26,8 @@ var monster_arr = [];
 window.onload = function() 
 {
     document.getElementById("create").addEventListener("click",function(){StartCreateEncounter()});
+    //document.getElementById("searchButton").addEventListener("click",function(){SearchTable()});
+    //document.getElementById("clearButton").addEventListener("click",function(){ClearSearch()});
 
     HideElementByID("encounterTable");
     HideElementByID("currrentEncounter");
@@ -54,9 +56,12 @@ function PopulateTable(json)
 {
     for (let i = 0; i < json.length; i++) 
     {
-        CreateRowEncounterTable(i, json[i].name, json[i].armorClass, json[i].hitPoints + '<br>' + '(' + json[i].hitPointRoll + ')', GetMonsterBehaviors(json[i]), json[i].challengeRating);
+        CreateRowEncounterTable(i, json[i].name, json[i].armorClass, json[i].hitPoints, GetMonsterBehaviors(json[i]), json[i].challengeRating);
+        //json[i].hitPoints
+        //json[i].hitPointRoll
+        //json[i].hitPoints + '<br>' + '(' + json[i].hitPoints + ')'
 
-        HideElementByID("defaultRow");
+        //HideElementByID("defaultRow");
     }
 
     let p = document.getElementsByTagName("p");
@@ -67,6 +72,121 @@ function PopulateTable(json)
     // Putting this here for now... 
     InitialiseMonsterArray(json);
 }
+
+function sortTable(n)
+{
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("encounterTable");
+    switching = true;
+
+    // Set the sorting direction to ascending:
+    dir = "asc";
+    
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) 
+    {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+
+        /* Loop through all table rows (except the
+        first, which contains table headers): */
+        for (i = 1; i < (rows.length - 1); i++) 
+        {
+            // Start by saying there should be no switching:
+            shouldSwitch = false;
+
+            /* Get the two elements you want to compare,
+            one from current row and one from the next: */
+            if (n == 0) 
+            {
+                x = rows[i].getElementsByTagName("button")[n];
+                y = rows[i + 1].getElementsByTagName("button")[n];    
+            }
+            else
+            {
+                x = rows[i].getElementsByTagName("td")[n];
+                y = rows[i + 1].getElementsByTagName("td")[n];    
+            }
+
+            /* Check if the two rows should switch place,
+            based on the direction, asc or desc: */
+            if (dir == "asc") 
+            {
+                if (Number(x.innerHTML) > Number(y.innerHTML)) 
+                {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            } 
+            else if (dir == "desc") 
+            {
+                if (Number(x.innerHTML) < Number(y.innerHTML)) 
+                {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+        if (shouldSwitch) 
+        {
+            /* If a switch has been marked, make the switch
+            and mark that a switch has been done: */
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            // Each time a switch is done, increase this count by 1:
+            switchcount ++;
+        } 
+        else 
+        {
+            /* If no switching has been done AND the direction is "asc",
+            set the direction to "desc" and run the while loop again. */
+            if (switchcount == 0 && dir == "asc") 
+            {
+                dir = "desc";
+                switching = true;
+            }
+        }
+    }
+}
+
+function SearchTable(id, col)
+{
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById(id).value;
+    filter = input.toUpperCase();
+    table = document.getElementById("encounterTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all rows and match those who don't match search query
+    for (let i = 0; i < tr.length; i++) 
+    {
+        td = tr[i].getElementsByTagName("td")[col];
+        if (td) 
+        {
+            txtValue = td.textContent || td.innerText
+            if (txtValue.toUpperCase().indexOf(filter) > -1) 
+            {
+                tr[i].style.display = "";    
+            }
+            else
+            {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+// This ruins the look of the table :)
+// function ClearSearch()
+// {
+//     let table = document.getElementById("encounterTable");
+//     buttons = table.getElementsByTagName("button");
+    
+// }
 
 // [Fixed]For some godforsaken reason the returned array is just Zalaacas... Hundreds of Zalaacas
 function InitialiseMonsterArray(json)
@@ -129,6 +249,7 @@ function CreateRowEncounterTable(id, name, ac, hp, behaviors, cr)
 
     cell4.innerHTML = behaviors;
     cell4.id = "monsterAttacks" + id;
+    cell4.classList.add("monsterAttacks");
 
     cell5.innerHTML = cr;
     cell5.id = "monsterCR" + id;
